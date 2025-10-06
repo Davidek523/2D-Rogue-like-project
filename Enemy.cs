@@ -27,16 +27,9 @@ abstract class Enemy
         {
             HP = 0;
         }
-        // TryAttack(player);
+        
         EnemyDeath();
     }
-
-    // public void TryAttack(Player player)
-    // {
-    //     AttackPlayer(player);
-    // }
-
-    // public abstract void AttackPlayer(Player player);
 
     public virtual void EnemyDeath()
     {
@@ -45,6 +38,39 @@ abstract class Enemy
         {
             X = -100;
             Y = -100;
+        }
+    }
+
+    public void MapCollision(float oldX, float oldY)
+    {
+        bool collision = false;
+        int row = Grid.GetGrid().GetLength(0);
+        int col = Grid.GetGrid().GetLength(1);
+
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
+            {
+                if (Grid.GetGrid()[i, j] == 1)
+                {
+                    if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(X, Y, Width, Height), new Raylib_cs.Rectangle(j * 80, i * 80, 80, 80)))
+                    {
+                        collision = true;
+                        Console.WriteLine("Touched the wall");
+                        break;
+                    }
+                }
+            }
+            if (collision)
+            {
+                break;
+            }
+        }
+
+        if (collision)
+        {
+            X = oldX;
+            Y = oldY;
         }
     }
 

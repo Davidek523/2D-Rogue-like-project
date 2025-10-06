@@ -11,19 +11,27 @@ abstract class Weapon
     public float X { get; set; }
     public float Y { get; set; }
     public string WeaponDir { get; set; } = "right";
+    public EntityType EntityType { get; set; }
 
-    public Weapon(int width, int height, float x, float y)
+    public Weapon(int width, int height, float x, float y, EntityType entityType)
     {
         Width = width;
         Height = height;
         X = x;
         Y = y;
+        EntityType = entityType;
     }
 
     public virtual void Update(Player player, Enemy enemy, float deltaTime)
     {
-        HandleInputs(player);
-        TryAttack(enemy, player);
+        if (EntityType == EntityType.Player)
+        {
+            HandleInputs(player);
+        }
+        else if (EntityType == EntityType.Enemy)
+        {
+            HandleInputsEnemy(enemy, player);
+        }
     }
 
     public void HandleInputs(Player player)
@@ -56,41 +64,75 @@ abstract class Weapon
         }
     }
 
-    public void HandleInputsEnemy(Enemy enemy)
+    public void HandleInputsEnemy(Enemy enemy, Player player)
     {
-        if (enemy.X < X) WeaponDir = "left";
-        if (enemy.X > X) WeaponDir = "right";
-        if (enemy.Y < Y) WeaponDir = "up";
-        if (enemy.Y > Y) WeaponDir = "down";
+        float dx = player.X - enemy.X;
+        float dy = player.Y - enemy.Y;
+
+        // if (enemy.X < X) WeaponDir = "left";
+        // if (enemy.X > X) WeaponDir = "right";
+        // if (enemy.Y < Y) WeaponDir = "up";
+        // if (enemy.Y > Y) WeaponDir = "down";
+
+        if (Math.Abs(dx) > Math.Abs(dy))
+        {
+            if (dx > 0)
+            {
+                WeaponDir = "right";
+            }
+            else
+            {
+                WeaponDir = "left";
+            }
+
+            if (dy > 0)
+            {
+                WeaponDir = "down";
+            }
+            else
+            {
+                WeaponDir = "up";
+            }
+        }
 
         switch (WeaponDir)
-        {
-            case "up":
-                X = enemy.X + (enemy.Width / 2) - (Width / 2);
-                Y = enemy.Y - Height;
-                break;
-            case "down":
-                X = enemy.X + (enemy.Width / 2) - (Width / 2);
-                Y = enemy.Y + enemy.Height;
-                break;
-            case "rigt":
-                X = enemy.X + enemy.Width;
-                Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
-                break;
-            case "left":
-                X = enemy.X - enemy.Width;
-                Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
-                break;
-        }
+            {
+                case "up":
+                    X = enemy.X + (enemy.Width / 2) - (Width / 2);
+                    Y = enemy.Y - Height;
+                    break;
+                case "down":
+                    X = enemy.X + (enemy.Width / 2) - (Width / 2);
+                    Y = enemy.Y + enemy.Height;
+                    break;
+                case "rigt":
+                    X = enemy.X + enemy.Width;
+                    Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
+                    break;
+                case "left":
+                    X = enemy.X - enemy.Width;
+                    Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
+                    break;
+            }
     }
 
-    public void TryAttack(Enemy enemy, Player player)
-    {
-        if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
-        {
-            Attack(enemy, player);
-        }
-    }
+    // public void TryAttack(Enemy enemy, Player player, Weapon weapon)
+    // {
+    //     if (weapon is Bow bow)
+    //     {
+    //         if (bow.entityType == EntityType.Player)
+    //         {
+    //             if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
+    //             {
+    //                 Attack(enemy, player);
+    //             }
+    //         }
+    //         else if (bow.entityType == EntityType.Enemy)
+    //         {
+    //             Attack(enemy, player);
+    //         }
+    //     }
+    // }
 
     public abstract void Attack(Enemy enemy, Player player);
 

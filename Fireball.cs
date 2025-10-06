@@ -4,7 +4,7 @@ class Fireball : Weapon
 {
     public List<Projectiles> Fireballs;
     public ProjectileType Type;
-    public Fireball(int width, int height, float x, float y) : base(width, height, x, y)
+    public Fireball(int width, int height, float x, float y, EntityType entityType) : base(width, height, x, y, entityType)
     {
         Fireballs = new List<Projectiles>();
         Type = ProjectileType.Fireball;

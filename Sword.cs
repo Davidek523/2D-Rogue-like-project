@@ -7,7 +7,7 @@ class Sword : Weapon
     public float SlashSpeed = 360f;
     public float SlashDuration = 0.25f;
     private float slashTimer { get; set; }
-    public Sword(int width, int height, float x, float y) : base(width, height, x, y)
+    public Sword(int width, int height, float x, float y, EntityType entityType) : base(width, height, x, y, entityType)
     {
         IsSlashing = false;
         Angle = -45f;
