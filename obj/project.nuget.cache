@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "DB1Ggpvr7zg=",
+  "success": true,
+  "projectFilePath": "E:\\Clone_again\\2D-Rogue-like-project\\ROUGE_LIKE.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\david\\.nuget\\packages\\raylib-cs\\7.0.1\\raylib-cs.7.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
