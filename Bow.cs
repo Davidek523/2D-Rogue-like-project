@@ -52,42 +52,6 @@ class Bow : Weapon
         }
     }
 
-    // public void AttackPlayer(Player player, Enemy enemy)
-    // {
-    //     entityType = EntityType.Player;
-
-    //     // Problem: Because Attack is called only when Space is pressed, the last bullet is removed after the second time Space is pressed
-    //     Arrows.Add(new Projectiles(X + Width / 2, Y + Height / 2, 10f));
-    //     foreach (var arrow in Arrows)
-    //     {
-    //         if (!arrow.IsActive || Raylib_cs.Raylib.CheckCollisionPointRec(new Vector2(arrow.Position.X, arrow.Position.Y), new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
-    //         {
-    //             Arrows.Remove(arrow);
-    //             enemy.IsPlayerHit = true;
-    //             Console.WriteLine("Enemy hit by arrow"); // DEBUG
-    //             break;
-    //         }
-    //     }
-    // }
-
-    // public void AttackEnemy(Player player, Enemy enemy)
-    // {
-    //     entityType = EntityType.Enemy;
-
-    //     // Problem: Because Attack is called only when Space is pressed, the last bullet is removed after the second time Space is pressed
-    //     Bones.Add(new Projectiles(X + Width / 2, Y + Height / 2, 10f));
-    //     foreach (var bone in Bones)
-    //     {
-    //         if (!bone.IsActive || Raylib_cs.Raylib.CheckCollisionPointRec(new Vector2(bone.Position.X, bone.Position.Y), new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
-    //         {
-    //             Bones.Remove(bone);
-    //             player.IsEnemyHit = true;
-    //             Console.WriteLine("Player hit by a bone!"); // DEBUG
-    //             break;
-    //         }
-    //     }
-    // }
-
     public override void Draw()
     {
         base.Draw();

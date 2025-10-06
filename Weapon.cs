@@ -116,24 +116,6 @@ abstract class Weapon
             }
     }
 
-    // public void TryAttack(Enemy enemy, Player player, Weapon weapon)
-    // {
-    //     if (weapon is Bow bow)
-    //     {
-    //         if (bow.entityType == EntityType.Player)
-    //         {
-    //             if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
-    //             {
-    //                 Attack(enemy, player);
-    //             }
-    //         }
-    //         else if (bow.entityType == EntityType.Enemy)
-    //         {
-    //             Attack(enemy, player);
-    //         }
-    //     }
-    // }
-
     public abstract void Attack(Enemy enemy, Player player);
 
     public virtual void Draw()
