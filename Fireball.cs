@@ -14,23 +14,58 @@ class Fireball : Weapon
     {
         base.Update(player, enemy, deltaTime);
 
-        foreach (var fireBall in Fireballs)
+        if (base.AttackCooldown > 0)
         {
+            base.AttackCooldown -= deltaTime;
+        }
+
+        for (int i = Fireballs.Count - 1; i >= 0; i--)
+        {
+            var fireBall = Fireballs[i];
             fireBall.Update(this);
+            if (fireBall.IsActive)
+            {
+                Fireballs.RemoveAt(i);
+            }
         }
     }
 
     public override void Attack(Enemy enemy, Player player)
     {
-        Fireballs.Add(new Projectiles(X + Width / 2, Y + Height / 2, 10f));
+        if (base.AttackCooldown <= 0)
+        {
+            TryAttack(enemy, player);
+            base.AttackCooldown = base.MaxCooldown;
+        }
+    }
+
+    public void TryAttack(Enemy enemy, Player player)
+    {
+        // Adding fire balls for player
+        if (EntityType == EntityType.Player && Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
+        {
+            Fireballs.Add(new Projectiles(X, Y, 10f));
+        }
+
+        // Adding fire balls for enemy
+        if (EntityType == EntityType.Enemy)
+        {
+            Fireballs.Add(new Projectiles(X, Y, 6f));
+        }
+
+        // Checking collisions for both player and enemy
         foreach (var fireBall in Fireballs)
         {
-            if (!fireBall.IsActive || Raylib_cs.Raylib.CheckCollisionPointRec(new Vector2(fireBall.Position.X, fireBall.Position.Y), new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+            if (EntityType == EntityType.Player && Raylib_cs.Raylib.CheckCollisionPointRec(fireBall.Position, new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
             {
-                Fireballs.Remove(fireBall);
                 player.IsEnemyHit = true;
-                Console.WriteLine("Enemy hit by fireball"); // DEBUG
-                break;
+                fireBall.IsActive = true;
+            }
+
+            if (EntityType == EntityType.Enemy && Raylib_cs.Raylib.CheckCollisionPointRec(fireBall.Position, new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
+            {
+                enemy.IsPlayerHit = true;
+                fireBall.IsActive = true;
             }
         }
     }
