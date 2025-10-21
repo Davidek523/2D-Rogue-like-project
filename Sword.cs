@@ -24,15 +24,6 @@ class Sword : Weapon
         }
     }
 
-    public override void Attack(Enemy enemy, Player player)
-    {
-        StartSlash();
-        if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(X, Y, Width, Height), new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
-        {
-            player.IsEnemyHit = true;
-            Console.WriteLine("Enemy hit by sword"); // DEBUG
-        }
-    }
 
     public override void Update(Player player, Enemy enemy, float deltaTime)
     {
@@ -60,6 +51,25 @@ class Sword : Weapon
 
         this.X = rX + playerCenter.X;
         this.Y = rY + playerCenter.Y;
+    }
+
+    public override void Attack(Enemy enemy, Player player)
+    {
+        if (base.AttackCooldown <= 0)
+        {
+            TryAttack(enemy, player);
+            base.AttackCooldown = base.MaxCooldown;
+        }
+    }
+
+    public void TryAttack(Enemy enemy, Player player)
+    {
+        StartSlash();
+        if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(X, Y, Width, Height), new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+        {
+            player.IsEnemyHit = true;
+            Console.WriteLine("Enemy hit by sword"); // DEBUG
+        }
     }
 
     public override void Draw()
