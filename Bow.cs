@@ -14,14 +14,33 @@ class Bow : Weapon
     {
         base.Update(player, enemy, deltaTime);
 
-        foreach (var projectile in ProjectileList)
+        if (base.AttackCooldown > 0)
         {
-            projectile.Update(this);
+            base.AttackCooldown -= deltaTime;
         }
-        ProjectileList.RemoveAll(x => !x.IsActive);
+
+        for (int i = ProjectileList.Count - 1; i >= 0; i--)
+        {
+            var projectile = ProjectileList[i];
+            projectile.Update(this);
+
+            if (projectile.IsActive)
+            {
+                ProjectileList.RemoveAt(i);
+            }
+        }
     }
 
     public override void Attack(Enemy enemy, Player player)
+    {
+        if (base.AttackCooldown <= 0)
+        {
+            TryAttack(enemy, player);
+            base.AttackCooldown = base.MaxCooldown;
+        }
+    }
+
+    public void TryAttack(Enemy enemy, Player player)
     {
         // Adding projectiles for player
         if (EntityType == EntityType.Player && Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
@@ -41,13 +60,13 @@ class Bow : Weapon
             if (EntityType == EntityType.Player && Raylib_cs.Raylib.CheckCollisionPointRec(projectile.Position, new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
             {
                 player.IsEnemyHit = true;
-                projectile.IsActive = false;
+                projectile.IsActive = true;
             }
 
             if (EntityType == EntityType.Enemy && Raylib_cs.Raylib.CheckCollisionPointRec(projectile.Position, new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
             {
                 enemy.IsPlayerHit = true;
-                projectile.IsActive = false;
+                projectile.IsActive = true;
             }
         }
     }

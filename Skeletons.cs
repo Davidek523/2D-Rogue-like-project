@@ -33,10 +33,6 @@ class Skeletons : Enemy
             Y -= Speed;
         }
 
-        if (attackCooldown > 0)
-        {
-            attackCooldown -= deltaTime;
-        }
         MapCollision(oldX, oldY);
         BowWeapon.Update(player, this, deltaTime);
         BowWeapon.Attack(this, player);
