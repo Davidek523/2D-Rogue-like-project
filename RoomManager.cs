@@ -11,7 +11,23 @@ class RoomManager
 {
     public RoomType CurrentRoom;
     public Weapon EquipedWeapon;
-    public List<Enemy> Enemies = new List<Enemy>();
+    public List<Enemy> Enemies;
+    public List<Weapon> RewardWeapon;
+    public List<Rectangle> Obstacles;
+    private bool _clearRoom = false;
+    private Map _map;
+
+    public RoomManager(Map map)
+    {
+        CurrentRoom = RoomType.RoomZero;
+        _map = map;
+
+        Enemies = new List<Enemy>();
+        RewardWeapon = new List<Weapon>();
+        Obstacles = new List<Rectangle>();
+
+        LoadRoom(CurrentRoom);
+    }
 
     public void LoadRoom(RoomType type)
     {
@@ -47,5 +63,38 @@ class RoomManager
                 }
                 break;
         }
+    }
+
+    public void ClearRoom()
+    {
+        Enemies.Clear();
+        RewardWeapon.Clear();
+        Obstacles.Clear();
+        _clearRoom = false;
+    }
+
+    public void Update(Player player, float deltaTime)
+    {
+
+    }
+
+    public void SpawnReward()
+    {
+
+    }
+
+    public void UnlockDoors()
+    {
+
+    }
+
+    public void GoToNextRoom()
+    {
+
+    }
+
+    public void Draw()
+    {
+        
     }
 }
