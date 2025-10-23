@@ -78,7 +78,7 @@ class RoomManager
         _clearRoom = false;
     }
 
-    public void Update(Player player, float deltaTime)
+    public void Update(Player player, Enemy enemy, float deltaTime)
     {
         // Update every enemy in the room
         foreach (Enemy enemy in Enemies)
@@ -93,6 +93,9 @@ class RoomManager
             UnlockDoors();
             SpawnReward();
         }
+
+        // Update enemy wepaons
+        EquipedWeapon.Update(player, enemy, deltaTime);
 
         // Update the doors
         foreach (Doors door in Door)
@@ -109,21 +112,47 @@ class RoomManager
 
     public void SpawnReward()
     {
-
+        
     }
 
     public void UnlockDoors()
     {
-
+        foreach (Doors door in Door)
+        {
+            door.IsDoorLocked = false;
+        }
     }
 
     public void GoToNextRoom()
     {
+        switch (CurrentRoom)
+        {
+            case RoomType.RoomZero:
+                CurrentRoom = RoomType.RoomOne;
+                break;
+            case RoomType.RoomOne:
+                CurrentRoom = RoomType.RoomTwo;
+                break;
+            case RoomType.RoomTwo:
+                CurrentRoom = RoomType.RoomThree;
+                break;
+        }
 
+        LoadRoom(CurrentRoom);
     }
 
     public void Draw()
     {
+        foreach (Enemy enemy in Enemies)
+        {
+            enemy.Draw();
+        }
 
+        foreach (Doors door in Door)
+        {
+            door.Draw();
+        }
+
+        EquipedWeapon.Draw();
     }
 }

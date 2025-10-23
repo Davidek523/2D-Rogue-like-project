@@ -1,6 +1,7 @@
 class Doors
 {
     public bool IsDoorEntered = false;
+    public bool IsDoorLocked = true;
     public string Direction;
     public Doors(string direction)
     {
@@ -17,6 +18,7 @@ class Doors
 
     }
 
+    // Add a check for if the door is locked
     public void DoorCollision(Player player, int row, int col)
     {
         for (int i = 0; i < row; i++)
