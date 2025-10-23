@@ -43,7 +43,7 @@ class RoomManager
             case RoomType.RoomOne:
                 for (int i = 0; i < 3; i++)
                 {
-                    Enemy mercenary = new Mercenary(50, 50, 300 + i * 100, 200 + i * 100);
+                    Enemy mercenary = new Mercenary(25, 25, 300 + i * 100, 200 + i * 100);
                     mercenary.EquipedWeapon = new Sword(25, 25, mercenary.X + 15, mercenary.Y + 5, EntityType.Player);
                     Enemies.Add(mercenary);
                     Door.Add(new Doors("Right"));
@@ -52,7 +52,7 @@ class RoomManager
             case RoomType.RoomTwo:
                 for (int i = 0; i < 3; i++)
                 {
-                    Enemy skeleton = new Skeletons(50, 50, 300 + i * 100, 200 + i * 100);
+                    Enemy skeleton = new Skeletons(25, 25, 300 + i * 100, 200 + i * 100);
                     skeleton.EquipedWeapon = new Bow(25, 25, skeleton.X + 15, skeleton.Y + 5, EntityType.Player);
                     Enemies.Add(skeleton);
                     Door.Add(new Doors("Left"));
@@ -61,7 +61,7 @@ class RoomManager
             case RoomType.RoomThree:
                 for (int i = 0; i < 3; i++)
                 {
-                    Enemy imp = new Imp(50, 50, 300 + i * 100, 200 + i * 100);
+                    Enemy imp = new Imp(25, 25, 300 + i * 100, 200 + i * 100);
                     imp.EquipedWeapon = new Fireball(25, 25, imp.X + 15, imp.Y + 5, EntityType.Player);
                     Enemies.Add(imp);
                 }
@@ -106,6 +106,7 @@ class RoomManager
             {
                 GoToNextRoom();
                 door.IsDoorEntered = false;
+                break;
             }
         }
     }
