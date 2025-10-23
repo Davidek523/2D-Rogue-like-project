@@ -10,6 +10,7 @@ public enum RoomType
 class RoomManager
 {
     public RoomType CurrentRoom;
+    public Weapon EquipedWeapon;
     public List<Enemy> Enemies = new List<Enemy>();
 
     public void LoadRoom(RoomType type)
@@ -22,19 +23,28 @@ class RoomManager
             case RoomType.RoomZero:
                 break;
             case RoomType.RoomOne:
-                Enemies.Add(new Mercenary(50, 50, 300, 300));
-                Enemies.Add(new Mercenary(50, 50, 800, 300));
-                Enemies.Add(new Mercenary(50, 50, 400, 500));
+                for (int i = 0; i < 3; i++)
+                {
+                    Enemy mercenary = new Mercenary(50, 50, 300 + i * 100, 200 + i * 100);
+                    EquipedWeapon = new Sword(25, 25, mercenary.X + 15, mercenary.Y + 5, EntityType.Player);
+                    Enemies.Add(mercenary);
+                }
                 break;
             case RoomType.RoomTwo:
-                Enemies.Add(new Skeletons(50, 50, 400, 200));
-                Enemies.Add(new Skeletons(50, 50, 600, 400));
-                Enemies.Add(new Skeletons(50, 50, 500, 500));
+                for (int i = 0; i < 3; i++)
+                {
+                    Enemy skeleton = new Skeletons(50, 50, 300 + i * 100, 200 + i * 100);
+                    EquipedWeapon = new Bow(25, 25, skeleton.X + 15, skeleton.Y + 5, EntityType.Player);
+                    Enemies.Add(skeleton);
+                }
                 break;
             case RoomType.RoomThree:
-                Enemies.Add(new Imp(50, 50, 350, 250));
-                Enemies.Add(new Imp(50, 50, 550, 350));
-                Enemies.Add(new Imp(50, 50, 450, 450));
+                for (int i = 0; i < 3; i++)
+                {
+                    Enemy imp = new Imp(50, 50, 300 + i * 100, 200 + i * 100);
+                    EquipedWeapon = new Fireball(25, 25, imp.X + 15, imp.Y + 5, EntityType.Player);
+                    Enemies.Add(imp);
+                }
                 break;
         }
     }
