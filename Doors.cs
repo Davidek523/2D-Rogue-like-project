@@ -1,15 +1,19 @@
 class Doors
 {
     public bool IsDoorEntered = false;
-    public Doors() { }
+    public string Direction;
+    public Doors(string direction)
+    {
+        Direction = direction;
+    }
 
-    public void Update(Player player, string direction)
+    public void Update(Player player)
     {
         int row = Grid.GetGrid().GetLength(0);
         int col = Grid.GetGrid().GetLength(1);
 
         DoorCollision(player, row, col);
-        FilterDoors(direction, row, col);
+        FilterDoors(Direction, row, col);
 
     }
 
