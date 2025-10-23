@@ -10,6 +10,7 @@ abstract class Enemy
     public int HP { get; set; } = 50;
     public virtual int Attack { get; set; } = 5;
     public bool IsPlayerHit { get; set; } = false;
+    public Weapon EquipedWeapon;
     public float attackCooldown = 1.0f;
 
     public Enemy(int width, int height, float x, float y)

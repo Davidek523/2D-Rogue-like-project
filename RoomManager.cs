@@ -10,10 +10,9 @@ public enum RoomType
 class RoomManager
 {
     public RoomType CurrentRoom;
-    public Weapon EquipedWeapon;
     public List<Enemy> Enemies;
     public List<Weapon> RewardWeapon;
-    public List<Rectangle> Obstacles;
+    public List<string> Obstacles;
     public List<Doors> Door;
     private bool _clearRoom = false;
     private Map _map;
@@ -25,7 +24,7 @@ class RoomManager
 
         Enemies = new List<Enemy>();
         RewardWeapon = new List<Weapon>();
-        Obstacles = new List<Rectangle>();
+        Obstacles = new List<string>();
         Door = new List<Doors>();
 
         LoadRoom(CurrentRoom);
@@ -45,7 +44,7 @@ class RoomManager
                 for (int i = 0; i < 3; i++)
                 {
                     Enemy mercenary = new Mercenary(50, 50, 300 + i * 100, 200 + i * 100);
-                    EquipedWeapon = new Sword(25, 25, mercenary.X + 15, mercenary.Y + 5, EntityType.Player);
+                    mercenary.EquipedWeapon = new Sword(25, 25, mercenary.X + 15, mercenary.Y + 5, EntityType.Player);
                     Enemies.Add(mercenary);
                     Door.Add(new Doors("Right"));
                 }
@@ -54,7 +53,7 @@ class RoomManager
                 for (int i = 0; i < 3; i++)
                 {
                     Enemy skeleton = new Skeletons(50, 50, 300 + i * 100, 200 + i * 100);
-                    EquipedWeapon = new Bow(25, 25, skeleton.X + 15, skeleton.Y + 5, EntityType.Player);
+                    skeleton.EquipedWeapon = new Bow(25, 25, skeleton.X + 15, skeleton.Y + 5, EntityType.Player);
                     Enemies.Add(skeleton);
                     Door.Add(new Doors("Left"));
                 }
@@ -63,7 +62,7 @@ class RoomManager
                 for (int i = 0; i < 3; i++)
                 {
                     Enemy imp = new Imp(50, 50, 300 + i * 100, 200 + i * 100);
-                    EquipedWeapon = new Fireball(25, 25, imp.X + 15, imp.Y + 5, EntityType.Player);
+                    imp.EquipedWeapon = new Fireball(25, 25, imp.X + 15, imp.Y + 5, EntityType.Player);
                     Enemies.Add(imp);
                 }
                 break;
@@ -78,12 +77,16 @@ class RoomManager
         _clearRoom = false;
     }
 
-    public void Update(Player player, Enemy enemy, float deltaTime)
+    public void Update(Player player, float deltaTime)
     {
         // Update every enemy in the room
         foreach (Enemy enemy in Enemies)
         {
             enemy.Update(player, deltaTime);
+            if (enemy.EquipedWeapon != null)
+            {
+                enemy.EquipedWeapon.Update(player, enemy, deltaTime);
+            }
         }
 
         // Check if all enemies are defeated
@@ -93,9 +96,6 @@ class RoomManager
             UnlockDoors();
             SpawnReward();
         }
-
-        // Update enemy wepaons
-        EquipedWeapon.Update(player, enemy, deltaTime);
 
         // Update the doors
         foreach (Doors door in Door)
@@ -112,7 +112,7 @@ class RoomManager
 
     public void SpawnReward()
     {
-        
+        return;
     }
 
     public void UnlockDoors()
@@ -143,16 +143,20 @@ class RoomManager
 
     public void Draw()
     {
+        _map.Draw();
+
         foreach (Enemy enemy in Enemies)
         {
             enemy.Draw();
+            if (enemy.EquipedWeapon != null)
+            {
+                enemy.EquipedWeapon.Draw();
+            }
         }
 
         foreach (Doors door in Door)
         {
             door.Draw();
         }
-
-        EquipedWeapon.Draw();
     }
 }
