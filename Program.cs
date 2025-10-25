@@ -36,11 +36,11 @@ class Program
 
             // enemy.Update(player, deltaTime);
             weapon.Update(player, enemy, deltaTime);
-            if (player.IsEnemyHit)
-            {
-                enemy.HP -= player.Attack;
-                player.IsEnemyHit = false;
-            }
+            // if (player.IsEnemyHit)
+            // {
+            //     enemy.HP -= player.Attack;
+            //     player.IsEnemyHit = false;
+            // }
 
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.White);

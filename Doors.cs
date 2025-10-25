@@ -13,13 +13,15 @@ class Doors
         int row = Grid.GetGrid().GetLength(0);
         int col = Grid.GetGrid().GetLength(1);
 
-        DoorCollision(player, row, col);
-        FilterDoors(Direction, row, col);
+        int oldX = (int)player.X;
+        int oldY = (int)player.Y;
 
+        DoorCollision(player, row, col, oldX, oldY);
+        FilterDoors(Direction, row, col);
     }
 
     // Add a check for if the door is locked
-    public void DoorCollision(Player player, int row, int col)
+    public void DoorCollision(Player player, int row, int col, int oldX, int oldY)
     {
         for (int i = 0; i < row; i++)
         {
@@ -35,7 +37,22 @@ class Doors
                         break;
                     }
                 }
+                if (IsDoorLocked || IsDoorEntered)
+                {
+                    break;
+                }
             }
+        }
+
+        if (IsDoorLocked)
+        {
+            player.X = oldX;
+            player.Y = oldY;
+        }
+        if (IsDoorEntered)
+        {
+            player.X = 600;
+            player.Y = 300;
         }
     }
 
