@@ -98,24 +98,24 @@ abstract class Weapon
         }
 
         switch (WeaponDir)
-            {
-                case "up":
-                    X = enemy.X + (enemy.Width / 2) - (Width / 2);
-                    Y = enemy.Y - Height;
-                    break;
-                case "down":
-                    X = enemy.X + (enemy.Width / 2) - (Width / 2);
-                    Y = enemy.Y + enemy.Height;
-                    break;
-                case "rigt":
-                    X = enemy.X + enemy.Width;
-                    Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
-                    break;
-                case "left":
-                    X = enemy.X - enemy.Width;
-                    Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
-                    break;
-            }
+        {
+            case "up":
+                X = enemy.X + (enemy.Width / 2) - (Width / 2);
+                Y = enemy.Y - Height;
+                break;
+            case "down":
+                X = enemy.X + (enemy.Width / 2) - (Width / 2);
+                Y = enemy.Y + enemy.Height;
+                break;
+            case "rigt":
+                X = enemy.X + enemy.Width;
+                Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
+                break;
+            case "left":
+                X = enemy.X - enemy.Width;
+                Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
+                break;
+        }
     }
 
     public abstract void Attack(Enemy enemy, Player player);
