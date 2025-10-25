@@ -65,16 +65,6 @@ class Player
                         break;
                     }
                 }
-
-                if (Grid.GetGrid()[i, j] == 2)
-                {
-                    if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(X, Y, Width, Height),
-                                                            new Raylib_cs.Rectangle(j * 80, i * 80, 80, 80)))
-                    {
-                        Console.WriteLine("Entered a door");
-                        break;
-                    }
-                }
             }
             if (collisions)
             {
@@ -87,19 +77,6 @@ class Player
         {
             X = oldX;
             Y = oldY;
-        }
-    }
-
-    public void PlayerAttack(float enemyX, float enemyY, Weapon weapon)
-    {
-        if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
-        {
-            if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(weapon.X, weapon.Y, weapon.Width, weapon.Height),
-                                                    new Raylib_cs.Rectangle(enemyX, enemyY, 25, 25)))
-            {
-                IsEnemyHit = true;
-                Console.WriteLine($"Enemy is hit for {Attack} damage");
-            } 
         }
     }
 

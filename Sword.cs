@@ -52,6 +52,7 @@ class Sword : Weapon
                                                     new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
             {
                 player.IsEnemyHit = true;
+                Console.WriteLine("Enemy Hit!"); // DEBUG
             }
         }
 
