@@ -46,10 +46,33 @@ class Sword : Weapon
 
     public void TryAttack(Enemy enemy, Player player)
     {
-        if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(X, Y, Width, Height), new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+        if (EntityType == EntityType.Player && Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
         {
-            player.IsEnemyHit = true;
-            Console.WriteLine("Enemy hit by sword"); // DEBUG
+            if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
+                                                    new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+            {
+                player.IsEnemyHit = true;
+            }
+        }
+
+        if (EntityType == EntityType.Enemy)
+        {
+            if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
+                                                    new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
+            {
+                enemy.IsPlayerHit = true;
+            }
+        }
+
+        if (player.IsEnemyHit)
+        {
+            enemy.HP -= player.Attack;
+            player.IsEnemyHit = false;
+        }
+        if (enemy.IsPlayerHit)
+        {
+            player.HP -= enemy.Attack;
+            enemy.IsPlayerHit = false;
         }
     }
 
