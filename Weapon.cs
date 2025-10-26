@@ -12,7 +12,7 @@ abstract class Weapon
     public float Y { get; set; }
     public float AttackCooldown = 0f;
     public float MaxCooldown = 1.0f;
-    public string WeaponDir { get; set; } = "right";
+    public string WeaponDir { get; set; } = "up";
     public EntityType EntityType { get; set; }
 
     public Weapon(int width, int height, float x, float y, EntityType entityType)
