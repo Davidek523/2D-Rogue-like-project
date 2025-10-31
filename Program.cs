@@ -15,7 +15,7 @@ class Program
         Enemy enemy = new Mercenary(25, 25, 200, 200);
         // Enemy enemy = new Skeletons(25, 25, 400, 400);
         // Enemy enemy = new Imp(25, 25, 400, 400);
-        Weapon weapon = new Sword(25, 25, player.X + 15, player.Y + 5, EntityType.Player);
+        // Weapon weapon = new Sword(25, 25, player.X + 15, player.Y + 5, EntityType.Player);
         // Weapon weapon = new Bow(25, 25, player.X + 15, player.Y + 5, EntityType.Enemy);
         // Weapon weapon = new Fireball(25, 25, player.X + 15, player.Y + 5, EntityType.Enemy);
         UI userInterace = new UI();
@@ -26,7 +26,7 @@ class Program
 
             roomManager.Update(player, deltaTime);
 
-            player.Update();
+            player.Update(enemy, deltaTime);
             // if (enemy.IsPlayerHit)
             // {
             //     player.HP -= enemy.Attack;
@@ -35,7 +35,7 @@ class Program
             player.PlayerDeath();
 
             // enemy.Update(player, deltaTime);
-            weapon.Update(player, enemy, deltaTime);
+            // weapon.Update(player, enemy, deltaTime);
             // if (player.IsEnemyHit)
             // {
             //     enemy.HP -= player.Attack;
@@ -47,7 +47,7 @@ class Program
 
             // map.Draw();
             roomManager.Draw();
-            weapon.Draw();
+            // weapon.Draw();
             player.Draw();
             // enemy.Draw();
 

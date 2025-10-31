@@ -46,7 +46,7 @@ class Sword : Weapon
 
     public void TryAttack(Enemy enemy, Player player)
     {
-        if (EntityType == EntityType.Player && Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
+        if (EntityType == EntityType.Player)
         {
             if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
                                                     new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
@@ -62,6 +62,7 @@ class Sword : Weapon
                                                     new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
             {
                 enemy.IsPlayerHit = true;
+                Console.WriteLine("Player Hit!"); // DEBUG
             }
         }
 
