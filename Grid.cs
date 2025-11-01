@@ -12,8 +12,15 @@ static class Grid
         {1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1}
     };
 
+    private static int[,] _copyGrid = (int[,])_grid.Clone();
+
     public static int[,] GetGrid()
     {
         return _grid;
+    }
+
+    public static void ResetGrid()
+    {
+        _grid = (int[,])_copyGrid.Clone();
     }
 }

@@ -13,46 +13,41 @@ class Doors
         int row = Grid.GetGrid().GetLength(0);
         int col = Grid.GetGrid().GetLength(1);
 
-        int oldX = (int)player.X;
-        int oldY = (int)player.Y;
-
-        DoorCollision(player, row, col, oldX, oldY);
+        DoorCollision(player, row, col);
         FilterDoors(Direction, row, col);
     }
 
     // Add a check for if the door is locked
-    public void DoorCollision(Player player, int row, int col, int oldX, int oldY)
+    public void DoorCollision(Player player, int row, int col)
     {
-        for (int i = 0; i < row; i++)
+        IsDoorEntered = false;
+        bool foundDoor = false;
+
+        for (int i = 0; i < row && !foundDoor; i++)
         {
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < col && !foundDoor; j++)
             {
                 if (Grid.GetGrid()[i, j] == 2)
                 {
                     if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height),
                                                             new Raylib_cs.Rectangle(j * 80, i * 80, 80, 80)))
                     {
-                        Console.WriteLine("Entered a door");
-                        IsDoorEntered = true;
-                        break;
+                        foundDoor = true;
+
+                        if (IsDoorLocked)
+                        {
+                            player.X = player.PreviousX;
+                            player.Y = player.PreviousY;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Entered a door");
+                            IsDoorEntered = true;
+                        }
+                        return;
                     }
                 }
-                if (IsDoorLocked || IsDoorEntered)
-                {
-                    break;
-                }
             }
-        }
-
-        if (IsDoorLocked)
-        {
-            player.X = oldX;
-            player.Y = oldY;
-        }
-        if (IsDoorEntered)
-        {
-            player.X = 600;
-            player.Y = 300;
         }
     }
 

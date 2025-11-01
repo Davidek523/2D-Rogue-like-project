@@ -4,6 +4,8 @@ class Player
     public int Height { get; set; }
     public float X { get; set; }
     public float Y { get; set; }
+    public float PreviousX { get; set; }
+    public float PreviousY { get; set; }
     public int Speed { get; set; } = 3;
     public int HP { get; set; } = 100;
     public int Armor { get; set; } = 0;
@@ -34,12 +36,16 @@ class Player
         if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
         {
             EquippedWeapon.Attack(enemy, this);
+            Console.WriteLine("Attack executed"); // DEBUG
         }
         EquippedWeapon.Update(this, enemy, deltaTime);
     }
 
     public void HandleMovement()
     {
+        PreviousX = X;
+        PreviousY = Y;
+
         // Movement of the player
         if (Raylib_cs.Raylib.IsKeyDown(Raylib_cs.KeyboardKey.W))
         {
@@ -62,8 +68,8 @@ class Player
     public void HandleCollision()
     {
         bool collisions = false;
-        float oldX = (int)X;
-        float oldY = (int)Y;
+        float oldX = X;
+        float oldY = Y;
 
         // Looping through the grid and checking for collisions between player and wall/door
         int row = Grid.GetGrid().GetLength(0);

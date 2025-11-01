@@ -14,6 +14,8 @@ class RoomManager
     public List<Weapon> RewardWeapon;
     public List<string> Obstacles;
     public List<Doors> Door;
+    private Player _player;
+    private UI _userInterace;
     private bool _clearRoom = false;
     private Map _map;
 
@@ -21,19 +23,24 @@ class RoomManager
     {
         CurrentRoom = RoomType.RoomZero;
         _map = map;
+        _userInterace = new UI();
 
         Enemies = new List<Enemy>();
         RewardWeapon = new List<Weapon>();
         Obstacles = new List<string>();
         Door = new List<Doors>();
+        _player = new Player(25, 25, 600, 300);
 
         LoadRoom(CurrentRoom);
     }
 
     public void LoadRoom(RoomType type)
     {
+        Grid.ResetGrid();
         CurrentRoom = type;
         Enemies.Clear();
+        Door.Clear();
+        _clearRoom = false;
 
         switch (type)
         {
@@ -69,23 +76,25 @@ class RoomManager
         }
     }
 
-    public void ClearRoom()
-    {
-        Enemies.Clear();
-        RewardWeapon.Clear();
-        Obstacles.Clear();
-        _clearRoom = false;
-    }
+    // public void ClearRoom()
+    // {
+    //     Enemies.Clear();
+    //     RewardWeapon.Clear();
+    //     Obstacles.Clear();
+    //     _clearRoom = false;
+    // }
 
-    public void Update(Player player, float deltaTime)
+    public void Update(float deltaTime)
     {
+        Enemy updateEnemy = new Mercenary(25, 25, -100, -100);
+
         // Update every enemy in the room
         foreach (Enemy enemy in Enemies)
         {
-            enemy.Update(player, deltaTime);
+            enemy.Update(_player, deltaTime);
             if (enemy.EquipedWeapon != null)
             {
-                enemy.EquipedWeapon.Update(player, enemy, deltaTime);
+                enemy.EquipedWeapon.Update(_player, enemy, deltaTime);
             }
         }
 
@@ -100,15 +109,30 @@ class RoomManager
         // Update the doors
         foreach (Doors door in Door)
         {
-            door.Update(player);
+            door.Update(_player);
 
             if (door.IsDoorEntered)
             {
                 GoToNextRoom();
+                _player.X = 600;
+                _player.Y = 300;
                 door.IsDoorEntered = false;
                 break;
             }
         }
+
+        // Update the player
+        for (int i = 0; i < Enemies.Count; i++)
+        {
+            if (Enemies[i].HP > 0)
+            {
+                updateEnemy = Enemies[i];
+                break;
+            }
+        }
+
+        _player.Update(updateEnemy, deltaTime);
+        _player.PlayerDeath();
     }
 
     public void SpawnReward()
@@ -145,6 +169,7 @@ class RoomManager
     public void Draw()
     {
         _map.Draw();
+        _player.Draw();
 
         foreach (Enemy enemy in Enemies)
         {
@@ -159,5 +184,8 @@ class RoomManager
         {
             door.Draw();
         }
+
+        _userInterace.DrawHealth(_player.HP);
+        _userInterace.DrawArmor(_player.Armor);
     }
 }
