@@ -8,7 +8,6 @@ enum ArmorType
 class Armor
 {
     public int ArmorStrength { get; set; }
-    public bool IsArmorEquipped { get; set; }
     public ArmorType Type { get; set; }
 
     public Armor(ArmorType type)
@@ -26,26 +25,15 @@ class Armor
                 ArmorStrength = 200;
                 break;
         }
-        IsArmorEquipped = false;
     }
 
     public void Update(Player player)
     {
         EquipArmor(player);
-        BrokenArmor(player);
     }
 
     public void EquipArmor(Player player)
     {
         player.Armor = ArmorStrength;
-        IsArmorEquipped = true;
-    }
-
-    public void BrokenArmor(Player player)
-    {
-        if (player.Armor <= 0)
-        {
-            IsArmorEquipped = false;
-        }
     }
 }

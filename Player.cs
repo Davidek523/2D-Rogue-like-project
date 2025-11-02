@@ -11,6 +11,7 @@ class Player
     public int Armor { get; set; } = 0;
     public int Attack { get; set; } = 10;
     public bool IsEnemyHit { get; set; } = false;
+    public bool IsArmorEquipped { get; set; }
     public Weapon EquippedWeapon { get; set; }
 
     public Player(int width, int height, float x, float y)
@@ -32,6 +33,7 @@ class Player
 
         HandleMovement();
         HandleCollision();
+        BrokenArmor();
 
         if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
         {
@@ -110,6 +112,19 @@ class Player
         {
             X = -100;
             Y = -100;
+        }
+    }
+
+    public void BrokenArmor()
+    {
+        if (Armor > 0)
+        {
+            IsArmorEquipped = true;
+        }
+
+        if (Armor <= 0)
+        {
+            IsArmorEquipped = false;
         }
     }
 

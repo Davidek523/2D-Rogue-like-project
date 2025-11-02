@@ -77,8 +77,16 @@ class Sword : Weapon
         }
         if (enemy.IsPlayerHit)
         {
-            player.HP -= enemy.Attack;
-            enemy.IsPlayerHit = false;
+            if (player.IsArmorEquipped)
+            {
+                player.Armor -= enemy.Attack;
+                enemy.IsPlayerHit = false;
+            }
+            else
+            {
+                player.HP -= enemy.Attack;
+                enemy.IsPlayerHit = false;
+            }
         }
     }
 
