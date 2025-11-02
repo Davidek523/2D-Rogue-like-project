@@ -40,6 +40,8 @@ class RoomManager
         CurrentRoom = type;
         Enemies.Clear();
         Door.Clear();
+        RewardWeapon.Clear();
+        Obstacles.Clear();
         _clearRoom = false;
 
         switch (type)
@@ -75,14 +77,6 @@ class RoomManager
                 break;
         }
     }
-
-    // public void ClearRoom()
-    // {
-    //     Enemies.Clear();
-    //     RewardWeapon.Clear();
-    //     Obstacles.Clear();
-    //     _clearRoom = false;
-    // }
 
     public void Update(float deltaTime)
     {
