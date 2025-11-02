@@ -14,6 +14,7 @@ class RoomManager
     public List<Weapon> RewardWeapon;
     public List<string> Obstacles;
     public List<Doors> Door;
+    public List<Armor> RewardArmor;
     private Player _player;
     private UI _userInterace;
     private bool _clearRoom = false;
@@ -27,6 +28,7 @@ class RoomManager
 
         Enemies = new List<Enemy>();
         RewardWeapon = new List<Weapon>();
+        RewardArmor = new List<Armor>();
         Obstacles = new List<string>();
         Door = new List<Doors>();
         _player = new Player(25, 25, 600, 300);
@@ -41,6 +43,7 @@ class RoomManager
         Enemies.Clear();
         Door.Clear();
         RewardWeapon.Clear();
+        RewardArmor.Clear();
         Obstacles.Clear();
         _clearRoom = false;
 
@@ -56,6 +59,7 @@ class RoomManager
                     mercenary.EquipedWeapon = new Sword(25, 25, mercenary.X + 15, mercenary.Y + 5, EntityType.Enemy);
                     Enemies.Add(mercenary);
                     Door.Add(new Doors("Right"));
+                    RewardArmor.Add(new Armor(ArmorType.Leather));
                 }
                 break;
             case RoomType.RoomTwo:
@@ -65,6 +69,7 @@ class RoomManager
                     skeleton.EquipedWeapon = new Bow(25, 25, skeleton.X + 15, skeleton.Y + 5, EntityType.Enemy);
                     Enemies.Add(skeleton);
                     Door.Add(new Doors("Left"));
+                    RewardArmor.Add(new Armor(ArmorType.Iron));
                 }
                 break;
             case RoomType.RoomThree:
@@ -73,6 +78,7 @@ class RoomManager
                     Enemy imp = new Imp(25, 25, 300 + i * 100, 200 + i * 100);
                     imp.EquipedWeapon = new Fireball(25, 25, imp.X + 15, imp.Y + 5, EntityType.Enemy);
                     Enemies.Add(imp);
+                    RewardArmor.Add(new Armor(ArmorType.Diamond));
                 }
                 break;
         }
@@ -131,7 +137,10 @@ class RoomManager
 
     public void SpawnReward()
     {
-        return;
+        foreach (Armor armor in RewardArmor)
+        {
+            armor.Update(_player);
+        }
     }
 
     public void UnlockDoors()
