@@ -15,6 +15,7 @@ class RoomManager
     public List<string> Obstacles;
     public List<Doors> Door;
     public List<Armor> RewardArmor;
+    public List<Item> RewardItems;
     private Player _player;
     private UI _userInterace;
     private bool _clearRoom = false;
@@ -29,6 +30,7 @@ class RoomManager
         Enemies = new List<Enemy>();
         RewardWeapon = new List<Weapon>();
         RewardArmor = new List<Armor>();
+        RewardItems = new List<Item>();
         Obstacles = new List<string>();
         Door = new List<Doors>();
         _player = new Player(25, 25, 600, 300);
@@ -44,6 +46,7 @@ class RoomManager
         Door.Clear();
         RewardWeapon.Clear();
         RewardArmor.Clear();
+        RewardItems.Clear();
         Obstacles.Clear();
         _clearRoom = false;
 
@@ -60,6 +63,7 @@ class RoomManager
                     Enemies.Add(mercenary);
                     Door.Add(new Doors("Right"));
                     RewardArmor.Add(new Armor(ArmorType.Leather));
+                    RewardItems.Add(new Item(ItemType.HealthBoost));
                 }
                 break;
             case RoomType.RoomTwo:
@@ -70,6 +74,7 @@ class RoomManager
                     Enemies.Add(skeleton);
                     Door.Add(new Doors("Left"));
                     RewardArmor.Add(new Armor(ArmorType.Iron));
+                    RewardItems.Add(new Item(ItemType.StrengthBoost));
                 }
                 break;
             case RoomType.RoomThree:
@@ -79,6 +84,7 @@ class RoomManager
                     imp.EquipedWeapon = new Fireball(25, 25, imp.X + 15, imp.Y + 5, EntityType.Enemy);
                     Enemies.Add(imp);
                     RewardArmor.Add(new Armor(ArmorType.Diamond));
+                    RewardItems.Add(new Item(ItemType.SpeedBoost));
                 }
                 break;
         }
@@ -140,6 +146,11 @@ class RoomManager
         foreach (Armor armor in RewardArmor)
         {
             armor.Update(_player);
+        }
+
+        foreach (Item item in RewardItems)
+        {
+            item.Update(_player);
         }
     }
 
