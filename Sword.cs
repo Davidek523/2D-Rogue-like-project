@@ -29,65 +29,69 @@ class Sword : Weapon
     {
         base.Update(player, enemy, deltaTime);
 
-        if (base.AttackCooldown > 0)
-        {
-            base.AttackCooldown -= deltaTime;
-        }
-
-        // if (IsSlashing)
+        // if (base.AttackCooldown > 0)
         // {
-        //     slashTimer -= deltaTime;
-        //     Angle += SlashSpeed * deltaTime;
-
-            //     if (slashTimer <= 0)
-            //     {
-            //         IsSlashing = false;
-            //     }
-            // }
-
-            // // Applying the rotation matrix
-            // Vector2 playerCenter = new Vector2(player.X + player.Width / 2, player.Y + player.Height / 2);
-
-            // float oldX = X - playerCenter.X;
-            // float oldY = Y - playerCenter.Y;
-
-            // float rX = oldX * MathF.Cos(Angle) - oldY * MathF.Sin(Angle);
-            // float rY = oldX * MathF.Sin(Angle) + oldY * MathF.Cos(Angle);
-
-            // this.X = rX + playerCenter.X;
-            // this.Y = rY + playerCenter.Y;
+        //     base.AttackCooldown -= deltaTime;
+        // }
     }
 
     public override void Attack(Enemy enemy, Player player)
     {
-        if (base.AttackCooldown <= 0)
-        {
-            TryAttack(enemy, player);
-            base.AttackCooldown = base.MaxCooldown;
-        }
+        // if (base.AttackCooldown <= 0)
+        // {
+        //     TryAttack(enemy, player);
+        //     base.AttackCooldown = base.MaxCooldown;
+        // }
+        TryAttack(enemy, player);
     }
 
     public void TryAttack(Enemy enemy, Player player)
     {
-        // StartSlash();
-        if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(X, Y, Width, Height), new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+        if (EntityType == EntityType.Player)
         {
+            // if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
+            //                                         new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+            // {
+            //     player.IsEnemyHit = true;
+            //     Console.WriteLine("Enemy Hit!"); // DEBUG
+            // }
+
             player.IsEnemyHit = true;
-            Console.WriteLine("Enemy hit by sword"); // DEBUG
+            Console.WriteLine("Enemy Hit!"); // DEBUG
+        }
+
+        if (EntityType == EntityType.Enemy)
+        {
+            if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
+                                                    new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
+            {
+                enemy.IsPlayerHit = true;
+                Console.WriteLine("Player Hit!"); // DEBUG
+            }
+        }
+
+        if (player.IsEnemyHit)
+        {
+            enemy.HP -= player.Attack;
+            player.IsEnemyHit = false;
+        }
+        if (enemy.IsPlayerHit)
+        {
+            if (player.IsArmorEquipped)
+            {
+                player.Armor -= enemy.Attack;
+                enemy.IsPlayerHit = false;
+            }
+            else
+            {
+                player.HP -= enemy.Attack;
+                enemy.IsPlayerHit = false;
+            }
         }
     }
 
     public override void Draw()
     {
-        // if (IsSlashing)
-        // {
-        //     Vector2 origin = new Vector2(Width / 2, Height / 2);
-        //     Raylib_cs.Raylib.DrawRectanglePro(new Raylib_cs.Rectangle(X, Y, Width, Height), origin, Angle, Raylib_cs.Color.Green);
-        // }
-        // else
-        // {
-        //     base.Draw();
-        // }
         base.Draw();
     }
 }

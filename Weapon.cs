@@ -12,7 +12,7 @@ abstract class Weapon
     public float Y { get; set; }
     public float AttackCooldown = 0f;
     public float MaxCooldown = 1.0f;
-    public string WeaponDir { get; set; } = "right";
+    public string WeaponDir { get; set; } = "up";
     public EntityType EntityType { get; set; }
 
     public Weapon(int width, int height, float x, float y, EntityType entityType)
@@ -98,24 +98,24 @@ abstract class Weapon
         }
 
         switch (WeaponDir)
-            {
-                case "up":
-                    X = enemy.X + (enemy.Width / 2) - (Width / 2);
-                    Y = enemy.Y - Height;
-                    break;
-                case "down":
-                    X = enemy.X + (enemy.Width / 2) - (Width / 2);
-                    Y = enemy.Y + enemy.Height;
-                    break;
-                case "rigt":
-                    X = enemy.X + enemy.Width;
-                    Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
-                    break;
-                case "left":
-                    X = enemy.X - enemy.Width;
-                    Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
-                    break;
-            }
+        {
+            case "up":
+                X = enemy.X + (enemy.Width / 2) - (Width / 2);
+                Y = enemy.Y - Height;
+                break;
+            case "down":
+                X = enemy.X + (enemy.Width / 2) - (Width / 2);
+                Y = enemy.Y + enemy.Height;
+                break;
+            case "rigt":
+                X = enemy.X + enemy.Width;
+                Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
+                break;
+            case "left":
+                X = enemy.X - enemy.Width;
+                Y = enemy.Y + (enemy.Height / 2) - (Height / 2);
+                break;
+        }
     }
 
     public abstract void Attack(Enemy enemy, Player player);

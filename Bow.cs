@@ -69,6 +69,19 @@ class Bow : Weapon
                 projectile.IsActive = true;
             }
         }
+
+        // Check for dealing damage
+        if (enemy.IsPlayerHit)
+        {
+            enemy.HP -= player.Attack;
+            enemy.IsPlayerHit = false;
+        }
+
+        if (player.IsEnemyHit)
+        {
+            player.HP -= enemy.Attack;
+            player.IsEnemyHit = false;
+        }
     }
 
     public override void Draw()

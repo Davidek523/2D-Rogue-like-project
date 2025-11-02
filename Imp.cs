@@ -16,11 +16,14 @@ class Imp : Enemy
     {
         base.Update(player, deltaTime);
 
+        float oldX = X;
+        float oldY = Y;
+
         Teleport(deltaTime);
 
+        MapCollision(oldX, oldY);
         FireballWeapon.Update(player, this, deltaTime);
         FireballWeapon.Attack(this, player);
-        MapCollision(X, Y);
     }
 
     public void Teleport(float deltaTime)

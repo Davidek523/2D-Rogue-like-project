@@ -11,6 +11,9 @@ class Mercenary : Enemy
     {
         base.Update(player, deltaTime);
 
+        float oldX = X;
+        float oldY = Y;
+
         // Enemy follows the player
         if (player.X < X)
         {
@@ -32,6 +35,7 @@ class Mercenary : Enemy
             Y += Speed;
         }
 
+        MapCollision(oldX, oldY);
         SwordWeapon.Update(player, this, deltaTime);
         SwordWeapon.Attack(this, player);
     }

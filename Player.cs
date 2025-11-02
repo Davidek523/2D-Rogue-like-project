@@ -4,11 +4,15 @@ class Player
     public int Height { get; set; }
     public float X { get; set; }
     public float Y { get; set; }
+    public float PreviousX { get; set; }
+    public float PreviousY { get; set; }
     public int Speed { get; set; } = 3;
     public int HP { get; set; } = 100;
     public int Armor { get; set; } = 0;
     public int Attack { get; set; } = 10;
     public bool IsEnemyHit { get; set; } = false;
+    public bool IsArmorEquipped { get; set; }
+    public Weapon EquippedWeapon { get; set; }
 
     public Player(int width, int height, float x, float y)
     {
@@ -16,19 +20,33 @@ class Player
         Height = height;
         X = x;
         Y = y;
+        EquippedWeapon = new Sword(25, 25, X + 15, Y + 5, EntityType.Player);
     }
 
-    public void Update()
+    public void Update(Enemy enemy, float deltaTime)
     {
-        bool collisions = false;
-        float oldX = (int)X;
-        float oldY = (int)Y;
-
         // If player HP is less then 0, it doesn't let HP go below 0
         if (HP < 0)
         {
             HP = 0;
         }
+
+        HandleMovement();
+        HandleCollision();
+        BrokenArmor();
+
+        if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
+        {
+            EquippedWeapon.Attack(enemy, this);
+            Console.WriteLine("Attack executed"); // DEBUG
+        }
+        EquippedWeapon.Update(this, enemy, deltaTime);
+    }
+
+    public void HandleMovement()
+    {
+        PreviousX = X;
+        PreviousY = Y;
 
         // Movement of the player
         if (Raylib_cs.Raylib.IsKeyDown(Raylib_cs.KeyboardKey.W))
@@ -47,6 +65,13 @@ class Player
         {
             X += Speed;
         }
+    }
+
+    public void HandleCollision()
+    {
+        bool collisions = false;
+        float oldX = X;
+        float oldY = Y;
 
         // Looping through the grid and checking for collisions between player and wall/door
         int row = Grid.GetGrid().GetLength(0);
@@ -65,16 +90,6 @@ class Player
                         break;
                     }
                 }
-
-                if (Grid.GetGrid()[i, j] == 2)
-                {
-                    if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(X, Y, Width, Height),
-                                                            new Raylib_cs.Rectangle(j * 80, i * 80, 80, 80)))
-                    {
-                        Console.WriteLine("Entered a door");
-                        break;
-                    }
-                }
             }
             if (collisions)
             {
@@ -90,19 +105,6 @@ class Player
         }
     }
 
-    public void PlayerAttack(float enemyX, float enemyY, Weapon weapon)
-    {
-        if (Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
-        {
-            if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(weapon.X, weapon.Y, weapon.Width, weapon.Height),
-                                                    new Raylib_cs.Rectangle(enemyX, enemyY, 25, 25)))
-            {
-                IsEnemyHit = true;
-                Console.WriteLine($"Enemy is hit for {Attack} damage");
-            } 
-        }
-    }
-
     public void PlayerDeath()
     {
         // Temporary logic for player death
@@ -113,8 +115,22 @@ class Player
         }
     }
 
+    public void BrokenArmor()
+    {
+        if (Armor > 0)
+        {
+            IsArmorEquipped = true;
+        }
+
+        if (Armor <= 0)
+        {
+            IsArmorEquipped = false;
+        }
+    }
+
     public void Draw()
     {
         Raylib_cs.Raylib.DrawRectangle((int)X, (int)Y, Width, Height, Raylib_cs.Color.Red);
+        EquippedWeapon.Draw();
     }
 }
