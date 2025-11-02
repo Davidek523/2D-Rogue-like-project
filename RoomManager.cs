@@ -62,8 +62,6 @@ class RoomManager
                     mercenary.EquipedWeapon = new Sword(25, 25, mercenary.X + 15, mercenary.Y + 5, EntityType.Enemy);
                     Enemies.Add(mercenary);
                     Door.Add(new Doors("Right"));
-                    RewardArmor.Add(new Armor(ArmorType.Leather));
-                    RewardItems.Add(new Item(ItemType.HealthBoost));
                 }
                 break;
             case RoomType.RoomTwo:
@@ -73,8 +71,6 @@ class RoomManager
                     skeleton.EquipedWeapon = new Bow(25, 25, skeleton.X + 15, skeleton.Y + 5, EntityType.Enemy);
                     Enemies.Add(skeleton);
                     Door.Add(new Doors("Left"));
-                    RewardArmor.Add(new Armor(ArmorType.Iron));
-                    RewardItems.Add(new Item(ItemType.StrengthBoost));
                 }
                 break;
             case RoomType.RoomThree:
@@ -83,8 +79,6 @@ class RoomManager
                     Enemy imp = new Imp(25, 25, 300 + i * 100, 200 + i * 100);
                     imp.EquipedWeapon = new Fireball(25, 25, imp.X + 15, imp.Y + 5, EntityType.Enemy);
                     Enemies.Add(imp);
-                    RewardArmor.Add(new Armor(ArmorType.Diamond));
-                    RewardItems.Add(new Item(ItemType.SpeedBoost));
                 }
                 break;
         }
@@ -136,13 +130,10 @@ class RoomManager
                 break;
             }
         }
-
         _player.Update(updateEnemy, deltaTime);
         _player.PlayerDeath();
-    }
 
-    public void SpawnReward()
-    {
+        // Update rewards (REMEMBER TO REMOVE THE OTHER REWARD ONCE ONE HAS BEEN PICKED UP)
         foreach (Armor armor in RewardArmor)
         {
             armor.Update(_player);
@@ -151,6 +142,29 @@ class RoomManager
         foreach (Item item in RewardItems)
         {
             item.Update(_player);
+        }
+        RewardArmor.RemoveAll(x => x.IsPickedUp);
+        RewardItems.RemoveAll(x => x.IsPickedUp);
+    }
+
+    public void SpawnReward()
+    {
+        Random rand = new Random();
+
+        switch (CurrentRoom)
+        {
+            case RoomType.RoomOne:
+                RewardArmor.Add(new Armor(ArmorType.Leather, rand.Next(100, 1000), rand.Next(100, 500)));
+                RewardItems.Add(new Item(ItemType.HealthBoost, rand.Next(100, 1000), rand.Next(100, 500)));
+                break;
+            case RoomType.RoomTwo:
+                RewardArmor.Add(new Armor(ArmorType.Iron, rand.Next(100, 1000), rand.Next(100, 500)));
+                RewardItems.Add(new Item(ItemType.StrengthBoost, rand.Next(100, 1000), rand.Next(100, 500)));
+                break;
+            case RoomType.RoomThree:
+                RewardArmor.Add(new Armor(ArmorType.Diamond, rand.Next(100, 1000), rand.Next(100, 500)));
+                RewardItems.Add(new Item(ItemType.SpeedBoost, rand.Next(100, 1000), rand.Next(100, 500)));
+                break;
         }
     }
 
@@ -192,6 +206,15 @@ class RoomManager
             {
                 enemy.EquipedWeapon.Draw();
             }
+        }
+
+        foreach (Armor armor in RewardArmor)
+        {
+            armor.Draw();
+        }
+        foreach (Item item in RewardItems)
+        {
+            item.Draw();
         }
 
         foreach (Doors door in Door)
