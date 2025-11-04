@@ -143,27 +143,55 @@ class RoomManager
         {
             item.Update(_player);
         }
+
+        // foreach (Weapon weapon in RewardWeapon)
+        // {
+        //     weapon.Update(_player, updateEnemy, deltaTime);
+        //     _player.EquipedWeapon = weapon;
+        // }
+
         RewardArmor.RemoveAll(x => x.IsPickedUp);
         RewardItems.RemoveAll(x => x.IsPickedUp);
+        // RewardWeapon.RemoveAll(x => x.IsPickedUp);
     }
 
     public void SpawnReward()
     {
         Random rand = new Random();
 
+        // Random armor type
+        Array armorValues = Enum.GetValues(typeof(ArmorType));
+        ArmorType randomArmorType = (ArmorType)armorValues.GetValue(rand.Next(armorValues.Length));
+
+        // Random item type
+        Array itemValues = Enum.GetValues(typeof(ItemType));
+        ItemType randomItemType = (ItemType)itemValues.GetValue(rand.Next(itemValues.Length));
+
+        // Random weapon type
+        // List<Weapon> weaponValues = new List<Weapon>
+        // {
+        //     new Sword(25, 25, 0, 0, EntityType.Player),
+        //     new Bow(25, 25, 0, 0, EntityType.Player),
+        //     new Fireball(25, 25, 0, 0, EntityType.Player)
+        // };
+        // Weapon randomWeaponType = weaponValues[rand.Next(weaponValues.Count)];
+
         switch (CurrentRoom)
         {
             case RoomType.RoomOne:
-                RewardArmor.Add(new Armor(ArmorType.Leather, rand.Next(100, 1000), rand.Next(100, 500)));
-                RewardItems.Add(new Item(ItemType.HealthBoost, rand.Next(100, 1000), rand.Next(100, 500)));
+                RewardArmor.Add(new Armor(randomArmorType, 680, 360));
+                RewardItems.Add(new Item(randomItemType, 730, 360));
+                // RewardWeapon.Add(new Weapon(randomWeaponType, 780, 360, EntityType.Player));
                 break;
             case RoomType.RoomTwo:
-                RewardArmor.Add(new Armor(ArmorType.Iron, rand.Next(100, 1000), rand.Next(100, 500)));
-                RewardItems.Add(new Item(ItemType.StrengthBoost, rand.Next(100, 1000), rand.Next(100, 500)));
+                RewardArmor.Add(new Armor(randomArmorType, 680, 360));
+                RewardItems.Add(new Item(randomItemType, 730, 360));
+                // RewardWeapon.Add(new Weapon(randomWeaponType, 780, 360, EntityType.Player));
                 break;
             case RoomType.RoomThree:
-                RewardArmor.Add(new Armor(ArmorType.Diamond, rand.Next(100, 1000), rand.Next(100, 500)));
-                RewardItems.Add(new Item(ItemType.SpeedBoost, rand.Next(100, 1000), rand.Next(100, 500)));
+                RewardArmor.Add(new Armor(randomArmorType, 680, 360));
+                RewardItems.Add(new Item(randomItemType, 730, 360));
+                // RewardWeapon.Add(new Weapon(randomWeaponType, 780, 360, EntityType.Player));
                 break;
         }
     }
@@ -216,6 +244,10 @@ class RoomManager
         {
             item.Draw();
         }
+        // foreach (Weapon weapon in RewardWeapon)
+        // {
+        //     weapon.Draw();
+        // }
 
         foreach (Doors door in Door)
         {
