@@ -11,7 +11,7 @@ class RoomManager
 {
     public RoomType CurrentRoom;
     public List<Enemy> Enemies;
-    public List<Weapon> RewardWeapon;
+    public List<RewardWeapon> RewardWeaponPlayer;
     public List<string> Obstacles;
     public List<Doors> Door;
     public List<Armor> RewardArmor;
@@ -28,7 +28,7 @@ class RoomManager
         _userInterace = new UI();
 
         Enemies = new List<Enemy>();
-        RewardWeapon = new List<Weapon>();
+        RewardWeaponPlayer = new List<RewardWeapon>();
         RewardArmor = new List<Armor>();
         RewardItems = new List<Item>();
         Obstacles = new List<string>();
@@ -44,7 +44,7 @@ class RoomManager
         CurrentRoom = type;
         Enemies.Clear();
         Door.Clear();
-        RewardWeapon.Clear();
+        RewardWeaponPlayer.Clear();
         RewardArmor.Clear();
         RewardItems.Clear();
         Obstacles.Clear();
@@ -144,15 +144,14 @@ class RoomManager
             item.Update(_player);
         }
 
-        // foreach (Weapon weapon in RewardWeapon)
-        // {
-        //     weapon.Update(_player, updateEnemy, deltaTime);
-        //     _player.EquipedWeapon = weapon;
-        // }
+        foreach (RewardWeapon weapon in RewardWeaponPlayer)
+        {
+            weapon.Update(_player);
+        }
 
         RewardArmor.RemoveAll(x => x.IsPickedUp);
         RewardItems.RemoveAll(x => x.IsPickedUp);
-        // RewardWeapon.RemoveAll(x => x.IsPickedUp);
+        RewardWeaponPlayer.RemoveAll(x => x.IsPickedUp);
     }
 
     public void SpawnReward()
@@ -168,30 +167,25 @@ class RoomManager
         ItemType randomItemType = (ItemType)itemValues.GetValue(rand.Next(itemValues.Length));
 
         // Random weapon type
-        // List<Weapon> weaponValues = new List<Weapon>
-        // {
-        //     new Sword(25, 25, 0, 0, EntityType.Player),
-        //     new Bow(25, 25, 0, 0, EntityType.Player),
-        //     new Fireball(25, 25, 0, 0, EntityType.Player)
-        // };
-        // Weapon randomWeaponType = weaponValues[rand.Next(weaponValues.Count)];
+        Array weaponValues = Enum.GetValues(typeof(WeaponType));
+        WeaponType randomWeaponType = (WeaponType)weaponValues.GetValue(rand.Next(weaponValues.Length));
 
         switch (CurrentRoom)
         {
             case RoomType.RoomOne:
                 RewardArmor.Add(new Armor(randomArmorType, 680, 360));
                 RewardItems.Add(new Item(randomItemType, 730, 360));
-                // RewardWeapon.Add(new Weapon(randomWeaponType, 780, 360, EntityType.Player));
+                RewardWeaponPlayer.Add(new RewardWeapon(randomWeaponType, 630, 360));
                 break;
             case RoomType.RoomTwo:
                 RewardArmor.Add(new Armor(randomArmorType, 680, 360));
                 RewardItems.Add(new Item(randomItemType, 730, 360));
-                // RewardWeapon.Add(new Weapon(randomWeaponType, 780, 360, EntityType.Player));
+                RewardWeaponPlayer.Add(new RewardWeapon(randomWeaponType, 630, 360));
                 break;
             case RoomType.RoomThree:
                 RewardArmor.Add(new Armor(randomArmorType, 680, 360));
                 RewardItems.Add(new Item(randomItemType, 730, 360));
-                // RewardWeapon.Add(new Weapon(randomWeaponType, 780, 360, EntityType.Player));
+                RewardWeaponPlayer.Add(new RewardWeapon(randomWeaponType, 630, 360));
                 break;
         }
     }
@@ -244,10 +238,10 @@ class RoomManager
         {
             item.Draw();
         }
-        // foreach (Weapon weapon in RewardWeapon)
-        // {
-        //     weapon.Draw();
-        // }
+        foreach (RewardWeapon weapon in RewardWeaponPlayer)
+        {
+            weapon.Draw();
+        }
 
         foreach (Doors door in Door)
         {
