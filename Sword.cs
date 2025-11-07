@@ -24,25 +24,18 @@ class Sword : Weapon
         }
     }
 
-
     public override void Update(Player player, Enemy enemy, float deltaTime)
     {
         base.Update(player, enemy, deltaTime);
-
-        // if (base.AttackCooldown > 0)
-        // {
-        //     base.AttackCooldown -= deltaTime;
-        // }
     }
 
     public override void Attack(Enemy enemy, Player player)
     {
-        // if (base.AttackCooldown <= 0)
-        // {
-        //     TryAttack(enemy, player);
-        //     base.AttackCooldown = base.MaxCooldown;
-        // }
-        TryAttack(enemy, player);
+        if (base.AttackCooldown <= 0)
+        {
+            TryAttack(enemy, player);
+            base.AttackCooldown = base.MaxCooldown;
+        }
     }
 
     public void TryAttack(Enemy enemy, Player player)
