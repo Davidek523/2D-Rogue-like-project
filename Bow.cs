@@ -14,11 +14,6 @@ class Bow : Weapon
     {
         base.Update(player, enemy, deltaTime);
 
-        if (base.AttackCooldown > 0)
-        {
-            base.AttackCooldown -= deltaTime;
-        }
-
         for (int i = ProjectileList.Count - 1; i >= 0; i--)
         {
             var projectile = ProjectileList[i];

@@ -14,11 +14,6 @@ class Fireball : Weapon
     {
         base.Update(player, enemy, deltaTime);
 
-        if (base.AttackCooldown > 0)
-        {
-            base.AttackCooldown -= deltaTime;
-        }
-
         for (int i = Fireballs.Count - 1; i >= 0; i--)
         {
             var fireBall = Fireballs[i];
