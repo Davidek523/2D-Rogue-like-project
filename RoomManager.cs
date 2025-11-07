@@ -16,6 +16,8 @@ class RoomManager
     public List<Doors> Door;
     public List<Armor> RewardArmor;
     public List<Item> RewardItems;
+    public bool IsPlayerDead = false;
+    public bool IsEnemyDead = false;
     private Player _player;
     private UI _userInterace;
     private bool _clearRoom = false;
@@ -49,6 +51,7 @@ class RoomManager
         RewardItems.Clear();
         Obstacles.Clear();
         _clearRoom = false;
+        IsEnemyDead = false;
 
         switch (type)
         {
@@ -102,6 +105,7 @@ class RoomManager
         if (!_clearRoom && Enemies.TrueForAll(x => x.HP <= 0))
         {
             _clearRoom = true;
+            IsEnemyDead = true;
             UnlockDoors();
             SpawnReward();
         }
@@ -132,6 +136,11 @@ class RoomManager
         }
         _player.Update(updateEnemy, deltaTime);
         _player.PlayerDeath();
+
+        if (_player.HP <= 0)
+        {
+            IsPlayerDead = true;
+        }
 
         // Update rewards (REMEMBER TO REMOVE THE OTHER REWARD ONCE ONE HAS BEEN PICKED UP)
         foreach (Armor armor in RewardArmor)
