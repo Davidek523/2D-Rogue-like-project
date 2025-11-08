@@ -42,15 +42,15 @@ class Sword : Weapon
     {
         if (EntityType == EntityType.Player)
         {
-            // if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
-            //                                         new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
-            // {
-            //     player.IsEnemyHit = true;
-            //     Console.WriteLine("Enemy Hit!"); // DEBUG
-            // }
+            if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
+                                                    new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+            {
+                player.IsEnemyHit = true;
+                Console.WriteLine("Enemy Hit!"); // DEBUG
+            }
 
-            player.IsEnemyHit = true;
-            Console.WriteLine("Enemy Hit!"); // DEBUG
+            // player.IsEnemyHit = true;
+            // Console.WriteLine("Enemy Hit!"); // DEBUG
         }
 
         if (EntityType == EntityType.Enemy)
@@ -81,6 +81,9 @@ class Sword : Weapon
                 enemy.IsPlayerHit = false;
             }
         }
+
+        // Console.WriteLine($"Sword: X={X}, Y={Y}, W={Width}, H={Height}");
+        // Console.WriteLine($"Enemy: X={enemy.X}, Y={enemy.Y}, W={enemy.Width}, H={enemy.Height}");
     }
 
     public override void Draw()
