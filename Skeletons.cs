@@ -8,8 +8,8 @@ class Skeletons : Enemy
     public Skeletons(int width, int height, float x, float y) : base(width, height, x, y)
     {
         BowWeapon = new Bow(15, 15, x, y, EntityType.Enemy);
-        this.X = _rand.Next(0, Raylib_cs.Raylib.GetScreenWidth() - Width);
-        this.Y = _rand.Next(0, Raylib_cs.Raylib.GetScreenHeight() - Height);
+        this.X = _rand.Next(0, Raylib_cs.Raylib.GetScreenWidth() - 90 - Width);
+        this.Y = _rand.Next(0, Raylib_cs.Raylib.GetScreenHeight() - 90 - Height);
     }
 
     public override void Update(Player player, float deltaTime)

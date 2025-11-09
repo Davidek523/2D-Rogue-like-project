@@ -30,8 +30,8 @@ class Imp : Enemy
     {
         if (TeleportationCooldown <= 0)
         {
-            X = rand.Next(0, Raylib_cs.Raylib.GetScreenWidth() - Width);
-            Y = rand.Next(0, Raylib_cs.Raylib.GetScreenHeight() - Height);
+            X = rand.Next(0, Raylib_cs.Raylib.GetScreenWidth() - 90 - Width);
+            Y = rand.Next(0, Raylib_cs.Raylib.GetScreenHeight() - 90 - Height);
             TeleportationCooldown = MaxTeleportationCooldown;
         }
         else
