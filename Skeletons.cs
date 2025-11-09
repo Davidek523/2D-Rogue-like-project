@@ -3,35 +3,21 @@ using System.Numerics;
 class Skeletons : Enemy
 {
     public Bow BowWeapon;
+    private Random _rand = new Random();
     public override int Attack { get; set; } = 10;
     public Skeletons(int width, int height, float x, float y) : base(width, height, x, y)
     {
         BowWeapon = new Bow(15, 15, x, y, EntityType.Enemy);
+        this.X = _rand.Next(0, Raylib_cs.Raylib.GetScreenWidth() - Width);
+        this.Y = _rand.Next(0, Raylib_cs.Raylib.GetScreenHeight() - Height);
     }
 
     public override void Update(Player player, float deltaTime)
     {
         base.Update(player, deltaTime);
 
-        float oldX = X;
-        float oldY = Y;
-
-        if (player.X < X)
-        {
-            X += Speed;
-        }
-        if (player.X > X)
-        {
-            X -= Speed;
-        }
-        if (player.Y < Y)
-        {
-            Y += Speed;
-        }
-        if (player.Y > Y)
-        {
-            Y -= Speed;
-        }
+        float oldX = this.X;
+        float oldY = this.Y;
 
         MapCollision(oldX, oldY);
         BowWeapon.Update(player, this, deltaTime);
