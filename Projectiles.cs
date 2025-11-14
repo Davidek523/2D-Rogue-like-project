@@ -9,36 +9,43 @@ enum ProjectileType
 class Projectiles
 {
     public Vector2 Position { get; set; }
-    public bool IsActive { get; set; }
+    private Vector2 _startPos { get; set; }
+    public Vector2 Direction { get; set; }
+    public bool IsActive { get; set; } = true;
     public float Speed { get; set; }
     public float Range { get; set; } = 450f;
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public ProjectileType Type { get; set; }
 
-    public Projectiles(float x, float y, float speed)
+    public Projectiles(float x, float y, Vector2 direction, float speed, ProjectileType type)
     {
         Position = new Vector2(x, y);
-        IsActive = true;
+        _startPos = Position;
         Speed = speed;
+        Direction = Vector2.Normalize(direction);
+        Type = type;
+
+        switch (type)
+        {
+            case ProjectileType.Arrow:
+                Width = 6;
+                Height = 6;
+                break;
+            case ProjectileType.Fireball:
+                Width = 30;
+                Height = 30;
+                break;
+        }
     }
 
     public void Update(Weapon weapon)
     {
-        switch (weapon.WeaponDir)
-        {
-            case "up":
-                Position = new Vector2(Position.X, Position.Y - Speed);
-                break;
-            case "down":
-                Position = new Vector2(Position.X, Position.Y + Speed);
-                break;
-            case "left":
-                Position = new Vector2(Position.X - Speed, Position.Y);
-                break;
-            case "right":
-                Position = new Vector2(Position.X + Speed, Position.Y);
-                break;
-        }
+        if (!IsActive) return;
 
-        if (Position.X <= Range || Position.X >= 1360 - Range || Position.Y <= Range || Position.Y >= 720 - Range)
+        Position += Direction * Speed;
+
+        if (Vector2.Distance(Position, _startPos) >= Range)
         {
             IsActive = false;
         }
