@@ -11,6 +11,9 @@ class Player
     public int Armor { get; set; } = 0;
     public int Attack { get; set; } = 10;
     public bool IsEnemyHit { get; set; } = false;
+    public bool IsFlashing { get; set; }
+    public float FlashTimer { get; set; }
+    public float FlashDuration { get; set; } = 1f;
     public bool IsArmorEquipped { get; set; }
     public Weapon EquippedWeapon { get; set; }
 
@@ -29,6 +32,16 @@ class Player
         if (HP < 0)
         {
             HP = 0;
+        }
+
+        if (IsFlashing)
+        {
+            FlashTimer -= deltaTime;
+            if (FlashTimer <= 0)
+            {
+                FlashTimer = 0;
+                IsFlashing = false;
+            }
         }
 
         HandleMovement();
@@ -130,7 +143,20 @@ class Player
 
     public void Draw()
     {
-        Raylib_cs.Raylib.DrawRectangle((int)X, (int)Y, Width, Height, Raylib_cs.Color.Red);
+        Raylib_cs.Color playerColor = Raylib_cs.Color.Red;
+
+        if (IsFlashing)
+        {
+            if ((int)(FlashTimer * 5) % 2 == 0)
+            {
+                playerColor = Raylib_cs.Color.Maroon;
+            }
+            else
+            {
+                playerColor = Raylib_cs.Color.Red;
+            }
+        }
+        Raylib_cs.Raylib.DrawRectangle((int)X, (int)Y, Width, Height, playerColor);
         EquippedWeapon.Draw();
     }
 }

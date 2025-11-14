@@ -48,9 +48,6 @@ class Sword : Weapon
                 player.IsEnemyHit = true;
                 Console.WriteLine("Enemy Hit!"); // DEBUG
             }
-
-            // player.IsEnemyHit = true;
-            // Console.WriteLine("Enemy Hit!"); // DEBUG
         }
 
         if (EntityType == EntityType.Enemy)
@@ -70,6 +67,9 @@ class Sword : Weapon
         }
         if (enemy.IsPlayerHit)
         {
+            player.IsFlashing = true;
+            player.FlashTimer = player.FlashDuration;
+
             if (player.IsArmorEquipped)
             {
                 player.Armor -= enemy.Attack;
