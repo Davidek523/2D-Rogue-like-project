@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Numerics;
 
 public enum RoomType
@@ -12,7 +13,6 @@ class RoomManager
     public RoomType CurrentRoom;
     public List<Enemy> Enemies;
     public List<RewardWeapon> RewardWeaponPlayer;
-    public List<string> Obstacles;
     public List<Doors> Door;
     public List<Armor> RewardArmor;
     public List<Item> RewardItems;
@@ -22,6 +22,7 @@ class RoomManager
     private UI _userInterace;
     private bool _clearRoom = false;
     private Map _map;
+    private Obstacles _obstacles;
 
     public RoomManager(Map map)
     {
@@ -33,9 +34,9 @@ class RoomManager
         RewardWeaponPlayer = new List<RewardWeapon>();
         RewardArmor = new List<Armor>();
         RewardItems = new List<Item>();
-        Obstacles = new List<string>();
         Door = new List<Doors>();
         _player = new Player(25, 25, 600, 300);
+        _obstacles = new Obstacles();
 
         LoadRoom(CurrentRoom);
     }
@@ -49,7 +50,6 @@ class RoomManager
         RewardWeaponPlayer.Clear();
         RewardArmor.Clear();
         RewardItems.Clear();
-        Obstacles.Clear();
         _clearRoom = false;
         IsEnemyDead = false;
 
@@ -256,6 +256,8 @@ class RoomManager
         {
             door.Draw();
         }
+
+        _obstacles.Draw();
 
         _userInterace.DrawHealth(_player.HP);
         _userInterace.DrawArmor(_player.Armor);
