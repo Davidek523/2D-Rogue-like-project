@@ -24,40 +24,30 @@ class Sword : Weapon
         }
     }
 
-
     public override void Update(Player player, Enemy enemy, float deltaTime)
     {
         base.Update(player, enemy, deltaTime);
-
-        // if (base.AttackCooldown > 0)
-        // {
-        //     base.AttackCooldown -= deltaTime;
-        // }
     }
 
     public override void Attack(Enemy enemy, Player player)
     {
-        // if (base.AttackCooldown <= 0)
-        // {
-        //     TryAttack(enemy, player);
-        //     base.AttackCooldown = base.MaxCooldown;
-        // }
-        TryAttack(enemy, player);
+        if (base.AttackCooldown <= 0)
+        {
+            TryAttack(enemy, player);
+            base.AttackCooldown = base.MaxCooldown;
+        }
     }
 
     public void TryAttack(Enemy enemy, Player player)
     {
         if (EntityType == EntityType.Player)
         {
-            // if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
-            //                                         new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
-            // {
-            //     player.IsEnemyHit = true;
-            //     Console.WriteLine("Enemy Hit!"); // DEBUG
-            // }
-
-            player.IsEnemyHit = true;
-            Console.WriteLine("Enemy Hit!"); // DEBUG
+            if (Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(this.X, this.Y, this.Width, this.Height),
+                                                    new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+            {
+                player.IsEnemyHit = true;
+                Console.WriteLine("Enemy Hit!"); // DEBUG
+            }
         }
 
         if (EntityType == EntityType.Enemy)
@@ -77,6 +67,9 @@ class Sword : Weapon
         }
         if (enemy.IsPlayerHit)
         {
+            player.IsFlashing = true;
+            player.FlashTimer = player.FlashDuration;
+
             if (player.IsArmorEquipped)
             {
                 player.Armor -= enemy.Attack;
@@ -88,6 +81,9 @@ class Sword : Weapon
                 enemy.IsPlayerHit = false;
             }
         }
+
+        // Console.WriteLine($"Sword: X={X}, Y={Y}, W={Width}, H={Height}");
+        // Console.WriteLine($"Enemy: X={enemy.X}, Y={enemy.Y}, W={enemy.Width}, H={enemy.Height}");
     }
 
     public override void Draw()

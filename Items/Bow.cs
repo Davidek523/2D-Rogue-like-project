@@ -14,17 +14,12 @@ class Bow : Weapon
     {
         base.Update(player, enemy, deltaTime);
 
-        if (base.AttackCooldown > 0)
-        {
-            base.AttackCooldown -= deltaTime;
-        }
-
         for (int i = ProjectileList.Count - 1; i >= 0; i--)
         {
             var projectile = ProjectileList[i];
             projectile.Update(this);
 
-            if (projectile.IsActive)
+            if (!projectile.IsActive)
             {
                 ProjectileList.RemoveAt(i);
             }
@@ -45,25 +40,35 @@ class Bow : Weapon
         // Adding projectiles for player
         if (EntityType == EntityType.Player && Raylib_cs.Raylib.IsKeyPressed(Raylib_cs.KeyboardKey.Space))
         {
-            ProjectileList.Add(new Projectiles(X, Y, 10f));
+            Vector2 playerPos = new Vector2(player.X, player.Y);
+            Vector2 mousePos = Raylib_cs.Raylib.GetMousePosition();
+            Vector2 direction = mousePos - playerPos;
+
+            ProjectileList.Add(new Projectiles(playerPos.X, playerPos.Y, direction, 10f, ProjectileType.Arrow));
         }
 
         // Adding projectiles for enemy
         if (EntityType == EntityType.Enemy)
         {
-            ProjectileList.Add(new Projectiles(X, Y, 6f));
+            Vector2 enemyPos = new Vector2(enemy.X, enemy.Y);
+            Vector2 playerPos = new Vector2(player.X, player.Y);
+            Vector2 direction = playerPos - enemyPos;
+
+            ProjectileList.Add(new Projectiles(enemyPos.X, enemyPos.Y, direction, 6f, ProjectileType.Arrow));
         }
 
         // Checking collisions for both player and enemy
         foreach (var projectile in ProjectileList)
         {
-            if (EntityType == EntityType.Player && Raylib_cs.Raylib.CheckCollisionPointRec(projectile.Position, new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
+            if (EntityType == EntityType.Player && Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(projectile.Position.X, projectile.Position.Y, projectile.Width, projectile.Height),
+                                                                                       new Raylib_cs.Rectangle(enemy.X, enemy.Y, enemy.Width, enemy.Height)))
             {
                 player.IsEnemyHit = true;
                 projectile.IsActive = true;
             }
 
-            if (EntityType == EntityType.Enemy && Raylib_cs.Raylib.CheckCollisionPointRec(projectile.Position, new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
+            if (EntityType == EntityType.Enemy && Raylib_cs.Raylib.CheckCollisionRecs(new Raylib_cs.Rectangle(projectile.Position.X, projectile.Position.Y, projectile.Width, projectile.Height),
+                                                                                      new Raylib_cs.Rectangle(player.X, player.Y, player.Width, player.Height)))
             {
                 enemy.IsPlayerHit = true;
                 projectile.IsActive = true;
@@ -73,13 +78,13 @@ class Bow : Weapon
         // Check for dealing damage
         if (enemy.IsPlayerHit)
         {
-            enemy.HP -= player.Attack;
+            player.HP -= enemy.Attack;
             enemy.IsPlayerHit = false;
         }
 
         if (player.IsEnemyHit)
         {
-            player.HP -= enemy.Attack;
+            enemy.HP -= player.Attack;
             player.IsEnemyHit = false;
         }
     }

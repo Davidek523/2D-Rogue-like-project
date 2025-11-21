@@ -11,7 +11,7 @@ abstract class Weapon
     public float X { get; set; }
     public float Y { get; set; }
     public float AttackCooldown = 0f;
-    public float MaxCooldown = 1.0f;
+    public float MaxCooldown = 1.5f;
     public string WeaponDir { get; set; } = "up";
     public EntityType EntityType { get; set; }
 
@@ -26,6 +26,11 @@ abstract class Weapon
 
     public virtual void Update(Player player, Enemy enemy, float deltaTime)
     {
+        if (AttackCooldown > 0)
+        {
+            AttackCooldown -= deltaTime;
+        }
+
         if (EntityType == EntityType.Player)
         {
             HandleInputs(player);
