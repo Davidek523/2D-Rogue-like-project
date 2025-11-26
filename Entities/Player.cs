@@ -1,3 +1,5 @@
+using System.Numerics;
+
 class Player
 {
     public int Width { get; set; }
@@ -16,6 +18,9 @@ class Player
     public float FlashDuration { get; set; } = 1f;
     public bool IsArmorEquipped { get; set; }
     public Weapon EquippedWeapon { get; set; }
+    private Raylib_cs.Texture2D _playerTexture;
+    public List<Raylib_cs.Rectangle> Frames;
+    public Raylib_cs.Rectangle SourceRect;
 
     public Player(int width, int height, float x, float y)
     {
@@ -24,6 +29,10 @@ class Player
         X = x;
         Y = y;
         EquippedWeapon = new Sword(25, 25, X + 15, Y + 5, EntityType.Player);
+        _playerTexture = Raylib_cs.Raylib.LoadTexture("assets/characters.png");
+        Frames = ImageExtractor.SliceCharacters(_playerTexture, 32);
+        int tileIndex = 0;
+        SourceRect = Frames[tileIndex];
     }
 
     public void Update(Enemy enemy, float deltaTime)
@@ -143,7 +152,7 @@ class Player
 
     public void Draw()
     {
-        Raylib_cs.Color playerColor = Raylib_cs.Color.Red;
+        Raylib_cs.Color playerColor = Raylib_cs.Color.White;
 
         if (IsFlashing)
         {
@@ -153,10 +162,10 @@ class Player
             }
             else
             {
-                playerColor = Raylib_cs.Color.Red;
+                playerColor = Raylib_cs.Color.White;
             }
         }
-        Raylib_cs.Raylib.DrawRectangle((int)X, (int)Y, Width, Height, playerColor);
+        Raylib_cs.Raylib.DrawTextureRec(_playerTexture, SourceRect, new Vector2(X, Y), playerColor);
         EquippedWeapon.Draw();
     }
 }

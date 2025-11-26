@@ -33,4 +33,27 @@ public static class ImageExtractor
 
         return tiles;
     }
+
+    public static List<Raylib_cs.Rectangle> SliceCharacters(Raylib_cs.Texture2D texture, int tileSize)
+    {
+        List<Raylib_cs.Rectangle> frames = new List<Raylib_cs.Rectangle>();
+
+        int tilesX = texture.Width / tileSize;
+        int tilesY = texture.Height / tileSize;
+
+        for (int y = 0; y < tilesY; y++)
+        {
+            for (int x = 0; x < tilesX; x++)
+            {
+                frames.Add(new Raylib_cs.Rectangle(
+                    x * tileSize,
+                    y * tileSize,
+                    tileSize,
+                    tileSize
+                ));
+            }
+        }
+
+        return frames;
+    }
 }
