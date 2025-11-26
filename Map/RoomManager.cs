@@ -261,5 +261,6 @@ class RoomManager
 
         _userInterace.DrawHealth(_player.HP);
         _userInterace.DrawArmor(_player.Armor);
+        _userInterace.DrawInstructions();
     }
 }
