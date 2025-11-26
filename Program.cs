@@ -16,7 +16,8 @@ class Program
         Raylib.InitWindow(1360, 720, "Rouge Like Game");
         Raylib.SetTargetFPS(60);
 
-        Map map = new Map(80, 80);
+        Map map = new Map(80, 80, 80);
+        map.LoadMap("assets/room.png");
         RoomManager roomManager = new RoomManager(map);
         GameState currentState = GameState.Menu;
 
