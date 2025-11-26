@@ -4,11 +4,13 @@ class Obstacles
 {
     public int Width { get; set; }
     public int Height { get; set; }
+    private Raylib_cs.Texture2D _obstacleTexture;
 
     public Obstacles()
     {
         Height = 80;
         Width = 80;
+        _obstacleTexture = Raylib_cs.Raylib.LoadTexture("assets/Column.png");
     }
 
     public void Draw()
@@ -24,7 +26,7 @@ class Obstacles
             {
                 if (Grid.GetGrid()[i, j] == 3)
                 {
-                    Raylib_cs.Raylib.DrawRectangle(j * tileSize, i * tileSize, Width, Height, Raylib_cs.Color.Orange);
+                    Raylib_cs.Raylib.DrawTexture(_obstacleTexture, j * tileSize, i * tileSize, Raylib_cs.Color.White);
                 }
             }
         }
