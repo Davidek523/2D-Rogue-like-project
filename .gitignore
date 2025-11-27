@@ -1,7 +1,2 @@
-/bin
-/obj
-/bin/Debug
-/bin/Debug/net9.0
-/obj/Debug
-/obj/Debug/net9.0
-/obj/Debug/net9.0/ref
+bin/
+obj/
