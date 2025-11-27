@@ -1,11 +1,35 @@
+using System.Numerics;
+
 class Doors
 {
     public bool IsDoorEntered = false;
     public bool IsDoorLocked = true;
     public string Direction;
+    private Raylib_cs.Texture2D _doorsTexture;
+    public List<Raylib_cs.Rectangle> Frames;
+    public Raylib_cs.Rectangle SourceRect;
     public Doors(string direction)
     {
         Direction = direction;
+        _doorsTexture = Raylib_cs.Raylib.LoadTexture("assets/doors.png");
+        Frames = ImageExtractor.SliceCharacters(_doorsTexture, 80);
+        int tileIndex = 0;
+        switch (Direction)
+        {
+            case "Up":
+                tileIndex = 0;
+                break;
+            case "Down":
+                tileIndex = 1;
+                break;
+            case "Left":
+                tileIndex = 3;
+                break;
+            case "Right":
+                tileIndex = 2;
+                break;
+        }
+        SourceRect = Frames[tileIndex];
     }
 
     public void Update(Player player)
@@ -99,7 +123,7 @@ class Doors
             {
                 if (Grid.GetGrid()[i, j] == 2)
                 {
-                    Raylib_cs.Raylib.DrawRectangle(j * 80, i * 80, 80, 80, Raylib_cs.Color.Brown);
+                    Raylib_cs.Raylib.DrawTextureRec(_doorsTexture, SourceRect, new Vector2(j * 80, i * 80), Raylib_cs.Color.White);
                 }
             }
         }
