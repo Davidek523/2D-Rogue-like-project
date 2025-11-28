@@ -49,5 +49,6 @@ Here you will find the instructions for how to operate as the player in the game
 - P KEY will pause the game
 
 ## Game Showcase
-![Gameplay Preview 1](#https://github.com/Davidek523/2D-Rogue-like-project/blob/main/Media/game_gif1.gif)
-![Gameplay Preview 2](#https://github.com/Davidek523/2D-Rogue-like-project/blob/main/Media/game_gif2.gif)
+![Gameplay Preview 1](https://github.com/Davidek523/2D-Rogue-like-project/blob/main/Media/game_gif1.gif)
+
+![Gameplay Preview 2](https://github.com/Davidek523/2D-Rogue-like-project/blob/main/Media/game_gif2.gif)
