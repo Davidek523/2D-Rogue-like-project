@@ -28,7 +28,7 @@ If you are a VS Code user and would like to open the project with that IDE it is
 - Open VS Code
 - Go to Extensions
 - Serach for C# Dev kit
-- Install the extension
+- Install the extension.
 This extension gives you debugging tools and easy project building.
 
 ### Running the project
