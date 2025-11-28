@@ -8,6 +8,8 @@
     - [Install .NET](#install-.net)
     - [(Optional) VS Code users](#(optional)-vs-code-users)
     - [Running the project](#running-the-project)
+  - [Game Instructions](#game-instructions)
+  - [Game Showcase](#game-showcase)
 
 ## Project Description
 The goal behind this project is to gradually learn game development. Rouge like game project is, like the name already says, a simple 2D rogue like where the player has to go through rooms of enemies to win the game. The game has been made with C# and Raylib-cs. 
@@ -36,3 +38,16 @@ To run (compile) the project:
 - Clone or download the repository to your computer
 - Open the terminal/command prompt inside the project folder (the folder containing the .csproj file)
 - Enter in dotnet run
+
+## Game Instructions
+Here you will find the instructions for how to operate as the player in the game:
+- WSAD KEYS are used to move the player around
+- SPACEBAR is used to attack the enemy
+- ARROW KEYS are used to move the direction of the weapon around
+- When using a projectile based weapon the MOUSE is used to aim
+- ESCAPE KEY will shutdown the game
+- P KEY will pause the game
+
+## Game Showcase
+![](#Media/game_gif1.gif)
+![](#Media/game_gif2.gif)
