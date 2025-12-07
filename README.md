@@ -1,7 +1,7 @@
-# Rouge like game project
+# Rogue like game project
 
 ## Table of Contents
-- [Rogue like game project](#rouge-like-game-project)
+- [Rogue like game project](#rogue-like-game-project)
   - [Table of Contents](#table-of-contents)
   - [Project Description](#project-description)
   - [Running the game](#running-the-game)
@@ -12,9 +12,9 @@
   - [Game Showcase](#game-showcase)
 
 ## Project Description
-The goal behind this project is to gradually learn game development. Rouge like game project is, like the name already says, a simple 2D rogue like where the player has to go through rooms of enemies to win the game. The game has been made with C# and Raylib-cs. 
+The goal behind this project is to gradually learn game development. Rogue like game project is, like the name already says, a simple 2D rogue like where the player has to go through rooms of enemies to win the game. The game has been made with C# and Raylib-cs. 
 
-This project was not ment to be a real finished game that could be published. Although it is working and playable it has many logical issues, unfinished assets/methods and things that could be approved on. It is not necessairly a bad thing because to learn you have to make some mistakes and later improve on those mistakes. This is my first bigger game project that I finished. You are welcome to play the game, go through the code and don't be afraid to leave feedback! That would be much appreciated!
+This is my first bigger game prototype that I made. You are welcome to play the game, go through the code and don't be afraid to leave feedback! That would be much appreciated!
 
 ## Running the game
 If you just want to run the game and play it, then download the zip file and run the executable file that you can find inside the zip file! But if you want to compile the code...
